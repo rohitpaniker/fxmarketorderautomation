@@ -23,18 +23,6 @@ export default function Dashboard() {
         // console.log("fetchData_data >>>>>>>>>>>>>>>>>>>>>>>>>>", trade_signals)
         setSheetsData(trade_signals)
     }
-    
-    const insertData = async () => {
-        const response = await fetch("/dashboard/api", {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ prompt: "Testing" }),
-        });
-        // const data = await response.json();
-        // console.log("insertData_data >>>>>>>>>>>>>>>>>>>>>>>>>>", response)
-    }
 
     const addTrade = async () => {
         console.log("Add Trade Clicked!!")
@@ -53,7 +41,6 @@ export default function Dashboard() {
     useEffect(() => {
         if (getSession()) {
             fetchData();
-            insertData();
         } else {
             router.push('/auth/login')
         }

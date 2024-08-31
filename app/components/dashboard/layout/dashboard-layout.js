@@ -14,8 +14,11 @@ import { cn } from "@/lib/utils";
 import TableView from "../components/tradingbulls-order-table";
 import { Button } from "@/components/ui/button";
 import { MTSAddTradeDialog } from "../components/mts-add-trade-dialog";
+import { createClient } from "@/lib/supabase/client";
 
 export function DashboardLayout() {
+  const supabase = createClient();
+
   const links = [
     {
       label: "Dashboard",
@@ -40,13 +43,22 @@ export function DashboardLayout() {
     },
     {
       label: "Logout",
-      href: "/logout",
+      href: "/auth/login",
       icon: (
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
   ];
+
+  const signOutUser = async () => {
+    const { error } = await supabase.auth.signOut()
+    if(error) alert(error);
+  }
+  
+  
   const [open, setOpen] = useState(false);
+
+
   return (
     <div
       className={cn(
@@ -59,9 +71,13 @@ export function DashboardLayout() {
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
-              {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
-              ))}
+              {links.map((link, idx) => {
+                if (link.label === 'Logout') {
+                  return (<SidebarLink key={idx} link={link} onClick={signOutUser}/>)
+                } else {
+                  return (<SidebarLink key={idx} link={link}/>)
+                }
+              })}
             </div>
           </div>
           <div>
@@ -83,7 +99,7 @@ export function DashboardLayout() {
           </div>
         </SidebarBody>
       </Sidebar>
-      <Dashboard/>
+      <Dashboard />
     </div>
   );
 }
@@ -121,7 +137,7 @@ const Dashboard = () => {
     <div className="flex flex-1">
       <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
         <div className="flex flex-row justify-end mr-5">
-          <MTSAddTradeDialog buttonTitle="Add Trade" isEditMode={false}/>
+          <MTSAddTradeDialog buttonTitle="Add Trade" isEditMode={false} />
         </div>
         <TableView />
         {/* <div className="flex gap-2">

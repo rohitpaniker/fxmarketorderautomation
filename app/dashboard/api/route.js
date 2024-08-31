@@ -8,10 +8,10 @@ export async function GET() {
   // const supabase = createServerComponentClient({ cookies })
   const res = NextResponse.next();
   const supabase = createClient();
-  const { data: sheets } = await supabase.from("sheets").select();
+  // const { data: sheets } = await supabase.from("sheets").select();
   const { data: trade_signals } = await supabase.from("trade_signals").select();
 
-  return Response.json({ sheets, trade_signals })
+  return Response.json({ trade_signals })
 }
 
 export async function POST(request) {

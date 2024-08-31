@@ -17,6 +17,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
@@ -78,6 +79,15 @@ function BuySellStopSelectComponent({ selectedBuySellSignal, isEditMode, default
     )
 }
 
+function ButtonLoading() {
+    return (
+      <Button disabled>
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Please wait
+      </Button>
+    )
+  }
+
 
 export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
     const [rowId, setRowId] = useState(0);
@@ -88,6 +98,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
     const [stopLoss, setStopLoss] = useState("");
     const [takeProfit, setTakeProfit] = useState("");
     const [open, setOpen] = useState(false);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     useEffect(() => {
         if(isEditMode && dataForEdit) {
@@ -104,6 +115,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
     }, [dataForEdit])
 
     const saveData = async () => {
+        setIsButtonDisabled(true);
         const response = await fetch("/dashboard/api", {
             method: 'POST',
             headers: {
@@ -122,6 +134,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
             }),
         });
         const data = await response.json();
+        setIsButtonDisabled(false);
         setOpen(false);
     }
 
@@ -131,6 +144,8 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
             setOpen(false);
             return false;
         }
+
+        setIsButtonDisabled(true);
 
         const response = await fetch("/dashboard/api", {
             method: 'POST',
@@ -151,6 +166,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
             }),
         });
         const data = await response.json();
+        setIsButtonDisabled(false);
         setOpen(false);
     }
 
@@ -220,7 +236,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button onClick={isEditMode ? updateData : saveData}>{isEditMode ? "Update" : "Save"}</Button>
+                    {isButtonDisabled ? <ButtonLoading/> : <Button onClick={isEditMode ? updateData : saveData}>{isEditMode ? "Update" : "Save"}</Button>}
                 </DialogFooter>
             </DialogContent>
         </Dialog>
