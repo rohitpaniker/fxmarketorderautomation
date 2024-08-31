@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org/) project which uses [Shadcn](https://ui.
 
 Bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+This backend is built to automate (using Vercel CRON) placing Forex market orders like BUY STOP & SELL STOP
+
 ## Getting Started
 
 First, run the development server:
