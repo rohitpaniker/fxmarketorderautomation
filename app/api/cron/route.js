@@ -6,6 +6,10 @@ import { cookies } from "next/headers";
 
 export async function GET() {
   // const supabase = createServerComponentClient({ cookies })
+  if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+    return res.status(401).end('Unauthorized');
+  }
+  
   const res = NextResponse.next();
   const supabase = createClient();
   const { data: trade_signals } = await supabase.from("trade_signals").select();
