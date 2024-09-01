@@ -4,11 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "./../../../lib/supabase/server";
 import { cookies } from "next/headers";
 
-export async function GET() {
+export async function GET(req) {
   // const supabase = createServerComponentClient({ cookies })
 //   const requestBody = await req.json();
 const res = NextResponse.next();  
-const req = NextRequest.next();  
+
 if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).end('Unauthorized');
   }
