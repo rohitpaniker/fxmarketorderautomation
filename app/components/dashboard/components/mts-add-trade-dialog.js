@@ -48,7 +48,7 @@ function CurrencyPairSelectComponent({ selectedOption, isEditMode, defaultCurren
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Currency Pairs</SelectLabel>
+                    <SelectLabel>Available Currency Pairs</SelectLabel>
                     {currencyOptions.map((currency, index) => <SelectItem key={index} value={currency}>{currency}</SelectItem>)}
                 </SelectGroup>
             </SelectContent>
@@ -71,7 +71,7 @@ function BuySellStopSelectComponent({ selectedBuySellSignal, isEditMode, default
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Valid Signal Call</SelectLabel>
+                    <SelectLabel>Avaialable Order Types</SelectLabel>
                     {signalOptions.map((call, index) => <SelectItem key={index} value={call}>{call.split('_').join(' ')}</SelectItem>)}
                 </SelectGroup>
             </SelectContent>
@@ -81,12 +81,12 @@ function BuySellStopSelectComponent({ selectedBuySellSignal, isEditMode, default
 
 function ButtonLoading() {
     return (
-      <Button disabled>
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        Please wait
-      </Button>
+        <Button disabled>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+        </Button>
     )
-  }
+}
 
 
 export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
@@ -101,7 +101,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     useEffect(() => {
-        if(isEditMode && dataForEdit) {
+        if (isEditMode && dataForEdit) {
             const { id, pair, signal, entryprice, stoploss, takeprofit, status } = dataForEdit;
             console.log("dataForEdit >>>>>>>>>>>>>>>>>>>>>>>>>>", dataForEdit);
             setShouldBeDisalbled((status === null || status === false) ? false : true);
@@ -139,8 +139,8 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
     }
 
     const updateData = async () => {
-        
-        if(shouldBeDisalbled) {
+
+        if (shouldBeDisalbled) {
             setOpen(false);
             return false;
         }
@@ -177,7 +177,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>{!isEditMode ? "Add" : "Edit" } Trade</DialogTitle>
+                    <DialogTitle>{!isEditMode ? "Add" : "Edit"} Trade</DialogTitle>
                     <DialogDescription>
                         Make changes to your trade signals. Click save when you're done.
                     </DialogDescription>
@@ -194,7 +194,24 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
                             Signal
                         </Label>
                     </div> */}
-                    <div className="grid grid-cols-12 items-center gap-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="currencyPair" className="text-right">
+                            Order
+                        </Label>
+                        <BuySellStopSelectComponent selectedBuySellSignal={setSelectedSignalCall} isEditMode={isEditMode} defaultSignalValue={dataForEdit?.signal.split(' ').join('_')} />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="currencyPair" className="text-right">
+                            Entry Price
+                        </Label>
+                        <Input
+                            onChange={e => setEntryPrice(e.target.value)}
+                            defaultValue={entryPrice}
+                            id="entryPoint"
+                            className="col-span-3"
+                        />
+                    </div>
+                    {/* <div className="grid grid-cols-12 items-center gap-4">
                         <div className="col-span-4">
                             <BuySellStopSelectComponent selectedBuySellSignal={setSelectedSignalCall} isEditMode={isEditMode} defaultSignalValue={dataForEdit?.signal.split(' ').join('_')} />
                         </div>
@@ -211,10 +228,10 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
                             id="entryPoint"
                             className="col-span-4"
                         />
-                    </div>
+                    </div> */}
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="stopLoss" className="text-right">
-                            SL
+                            Stop Loss
                         </Label>
                         <Input
                             onChange={e => setStopLoss(e.target.value)}
@@ -225,7 +242,7 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="takeProfit" className="text-right">
-                            TP
+                            Take Profit
                         </Label>
                         <Input
                             onChange={e => setTakeProfit(e.target.value)}
@@ -236,9 +253,9 @@ export function MTSAddTradeDialog({ buttonTitle, isEditMode, dataForEdit }) {
                     </div>
                 </div>
                 <DialogFooter>
-                    {isButtonDisabled ? <ButtonLoading/> : <Button onClick={isEditMode ? updateData : saveData}>{isEditMode ? "Update" : "Save"}</Button>}
+                    {isButtonDisabled ? <ButtonLoading /> : <Button onClick={isEditMode ? updateData : saveData}>{isEditMode ? "Update" : "Save"}</Button>}
                 </DialogFooter>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     )
 }

@@ -8,11 +8,17 @@ export async function GET() {
   // const supabase = createServerComponentClient({ cookies })
   const res = NextResponse.next();
   const supabase = createClient();
-  const { data: sheets } = await supabase.from("sheets").select();
   const { data: trade_signals } = await supabase.from("trade_signals").select();
 
+  const expungeDBEntries = async () => {
+    const deleteResponse = await supabase
+    .from('trade_signals')
+    .delete()
+    .in('id', allIDs)
+  }
+
   const callApiInLoop = async (dataObject) => {
-    
+
     const SIGNAL = `
     Pair : ${dataObject.pair}
     Order : ${dataObject.signal} 
@@ -20,7 +26,7 @@ export async function GET() {
     SL : ${dataObject.stoploss}
     TP1 : ${dataObject.takeprofit}
     `;
-    
+
     const response = await fetch("https://eorwbs4f4gnskwe.m.pipedream.net", {
       method: 'POST',
       headers: {
@@ -32,10 +38,14 @@ export async function GET() {
     // const data = await response.json();
     // console.log("RESPONSE_PIPEDREAM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", response)
   }
+  let allIDs = [];
 
   for (let i = 0; i < trade_signals.length; i++) {
     callApiInLoop(trade_signals[i]);
+    allIDs.push(trade_signals[i].id)
   }
-  return Response.json({ message: 'Submitted trade signals to API!', totalTradeSignalsExecuted: trade_signals.length })
-  return Response.json({ sheets, trade_signals })
+
+  // expungeDBEntries();
+
+  return Response.json({ message: 'Submitted trade signals to API!', totalTradeSignalsExecuted: trade_signals.length, totalEntriesDeleted: 0 })
 }

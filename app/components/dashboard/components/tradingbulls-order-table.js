@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { MTSAddTradeDialog } from "./mts-add-trade-dialog";
 import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton"
 
 const dummyData = [
     {
@@ -76,40 +78,42 @@ export default function TableView() {
 
     return (
         <>
-            <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-                <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th scope="col" className="px-6 py-4 font-medium text-gray-900">Pair</th>
-                            {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">Type</th> */}
-                            <th scope="col" className="px-6 py-4 font-medium text-gray-900">Signal</th>
-                            <th scope="col" className="px-6 py-4 font-medium text-gray-900">SL</th>
-                            <th scope="col" className="px-6 py-4 font-medium text-gray-900">TP</th>
-                            {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">Scheduled At</th> */}
-                            <th scope="col" className="px-6 py-4 font-medium text-gray-900">Status</th>
-                            {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">Macronutrients</th> */}
-                            <th scope="col" className="px-6 py-4 font-medium text-gray-900"></th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-                        {tableData.map((data, index) => {
-                            return (
-                                <tr key={index} className="hover:bg-gray-50">
-                                    <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                                        <div className="relative h-10 w-10">
-                                            <img
-                                                className="h-full w-full rounded-full object-cover object-center"
-                                                src="https://plus.unsplash.com/premium_photo-1681487767138-ddf2d67b35c1?q=80&w=3055&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                                alt=""
-                                            />
-                                            <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-                                        </div>
-                                        <div className="text-sm flex flex-col justify-center">
-                                            <div className="font-medium text-gray-700">{data.pair}</div>
-                                            {/* <div className="text-gray-400">jobs@sailboatui.com</div> */}
-                                        </div>
-                                    </th>
-                                    {/* <td className="px-6 py-4">
+            <div className="overflow-scroll rounded-lg border border-gray-200 shadow-md m-5">
+                {tableData.length > 0
+                    ? <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900">Pair</th>
+                                {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">Type</th> */}
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900">Order</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900">Entry</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900">SL</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900">TP</th>
+                                {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">Scheduled At</th> */}
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900">Status</th>
+                                {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">Macronutrients</th> */}
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900"></th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100 border-t border-gray-100">
+                            {tableData.map((data, index) => {
+                                return (
+                                    <tr key={index} className="hover:bg-gray-50">
+                                        <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                            <div className="relative h-10 w-10">
+                                                <img
+                                                    className="h-full w-full rounded-full object-cover object-center"
+                                                    src="https://plus.unsplash.com/premium_photo-1681487767138-ddf2d67b35c1?q=80&w=3055&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                                    alt=""
+                                                />
+                                                <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+                                            </div>
+                                            <div className="text-sm flex flex-col justify-center">
+                                                <div className="font-medium text-gray-700">{data.pair}</div>
+                                                {/* <div className="text-gray-400">jobs@sailboatui.com</div> */}
+                                            </div>
+                                        </th>
+                                        {/* <td className="px-6 py-4">
                                 <span
                                     className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
                                 >
@@ -117,19 +121,32 @@ export default function TableView() {
                                     Calorie Deficit
                                 </span>
                             </td> */}
-                                    <td className="px-6 py-4">{data.signal}</td>
-                                    <td className="px-6 py-4">{data.stoploss}</td>
-                                    <td className="px-6 py-4">{data.takeprofit}</td>
-                                    {/* <td className="px-6 py-4">{data.scheduledAt}</td> */}
-                                    <td className="px-6 py-4">
-                                        <span
-                                            className={`inline-flex items-center gap-1 rounded-full ${data.status === 'PLACED' ? 'bg-green-50 text-green-600' : 'bg-gray-200 text-gray-600'}  px-2 py-1 text-xs font-semibold`}
-                                        >
-                                            <span className={`h-1.5 w-1.5 rounded-full ${data.status === 'PLACED' ? 'bg-green-600' : 'bg-gray-600'}`}></span>
-                                            {(data.status === null || data.status === false) ? "PENDING" : data.status}
-                                        </span>
-                                    </td>
-                                    {/* <td className="px-6 py-4">
+                                        <td className="px-6 py-4">{
+                                            data.signal === 'BUY STOP'
+                                                ? <span
+                                                    className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+                                                >
+                                                    {data.signal}
+                                                </span>
+                                                : <span
+                                                    className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"
+                                                >
+                                                    {data.signal}
+                                                </span>
+                                        }</td>
+                                        <td className="px-6 py-4">{data.entryprice}</td>
+                                        <td className="px-6 py-4">{data.stoploss}</td>
+                                        <td className="px-6 py-4">{data.takeprofit}</td>
+                                        {/* <td className="px-6 py-4">{data.scheduledAt}</td> */}
+                                        <td className="px-6 py-4">
+                                            <span
+                                                className={`inline-flex items-center gap-1 rounded-full ${data.status === 'PLACED' ? 'bg-green-50 text-green-600' : 'bg-gray-200 text-gray-600'}  px-2 py-1 text-xs font-semibold`}
+                                            >
+                                                <span className={`h-1.5 w-1.5 rounded-full ${data.status === 'PLACED' ? 'bg-green-600' : 'bg-gray-600'}`}></span>
+                                                {(data.status === null || data.status === false) ? "PENDING" : data.status}
+                                            </span>
+                                        </td>
+                                        {/* <td className="px-6 py-4">
                                 <div className="flex gap-2">
                                     <span
                                         className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
@@ -148,11 +165,11 @@ export default function TableView() {
                                     </span>
                                 </div>
                             </td> */}
-                                    <td className="px-6 py-4">
-                                        <div className="flex justify-end gap-4">
-                                            <MTSAddTradeDialog buttonTitle="Edit" isEditMode={true} dataForEdit={data}/>
-                                            <Button variant="outline" onClick={() => deleteData(data.id)}>Delete</Button>
-                                            {/* <a x-data="{ tooltip: 'Delete' }" href="#">
+                                        <td className="px-6 py-4">
+                                            <div className="flex justify-end gap-4">
+                                                <MTSAddTradeDialog buttonTitle="Edit" isEditMode={true} dataForEdit={data} />
+                                                <Button variant="outline" onClick={() => deleteData(data.id)}>Delete</Button>
+                                                {/* <a x-data="{ tooltip: 'Delete' }" href="#">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
@@ -169,7 +186,7 @@ export default function TableView() {
                                                     />
                                                 </svg>
                                             </a> */}
-                                            {/* <a x-data="{ tooltip: 'Edite' }" href="#">
+                                                {/* <a x-data="{ tooltip: 'Edite' }" href="#">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
@@ -186,13 +203,18 @@ export default function TableView() {
                                                     />
                                                 </svg>
                                             </a> */}
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                    : <div className="flex h-screen">
+                        <Loader2 className="m-auto mr-2 h-4 w-4 animate-spin" />
+                        Please wait...
+                    </div>
+                }
             </div>
         </>
     )
