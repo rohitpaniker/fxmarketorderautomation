@@ -41,7 +41,7 @@ export async function POST(request) {
 
   switch (operation) {
     case "SAVE_NEW_TRADING_SIGNAL":
-      console.log("response.body >>>>>>>>>>>", requestBody);
+      console.log("response.body >>>>>>>>>>>>", requestBody);
       const { error: SAVE_NEW_TRADING_SIGNAL_ERROR } = await supabase.from('trade_signals').insert(SINGLE_DATA)
       console.log("SB_DB_ERROR >>>>>>>>>>>>>>>>", SAVE_NEW_TRADING_SIGNAL_ERROR);
       break;
