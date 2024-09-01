@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project which uses [Shadcn](https://ui.shadcn.com/) | [TailwindCSS](https://tailwindui.com/) | [Supabase](https://supabase.com/) 
+This is a [Next.js](https://nextjs.org/) project which uses [Shadcn](https://ui.shadcn.com/) | [TailwindCSS](https://tailwindui.com/) | [Supabase](https://supabase.com/) | [Acertinity UI](https://ui.aceternity.com/)
 
 Bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
