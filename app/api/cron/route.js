@@ -4,14 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "./../../../lib/supabase/server";
 import { cookies } from "next/headers";
 
-export async function GET(req) {
+export async function GET() {
   // const supabase = createServerComponentClient({ cookies })
 //   const requestBody = await req.json();
 const res = NextResponse.next();  
-
-if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
-    return res.status(401).end('Unauthorized');
-  }
 
   const supabase = createClient();
   const { data: trade_signals } = await supabase.from("trade_signals").select();
