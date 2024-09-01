@@ -41,17 +41,17 @@ export async function POST(request) {
 
   switch (operation) {
     case "SAVE_NEW_TRADING_SIGNAL":
-      console.log("response.body >>>>>>>>>>>>", requestBody);
+      console.log("response.body >>>>>>>>>>>>>>", requestBody);
       const { error: SAVE_NEW_TRADING_SIGNAL_ERROR } = await supabase.from('trade_signals').insert(SINGLE_DATA)
       console.log("SB_DB_ERROR >>>>>>>>>>>>>>>>", SAVE_NEW_TRADING_SIGNAL_ERROR);
       break;
     case "UPDATE_TRADING_SIGNAL":
-      console.log("response.body >>>>>>>>>>>", requestBody);
+      console.log("response.body >>>>>>>>>>>>>>", requestBody);
       const { error: UPDATE_TRADING_SIGNAL_ERROR } = await supabase.from('trade_signals').update(SINGLE_DATA).eq('id', data.id)
       console.log("SB_DB_ERROR >>>>>>>>>>>>>>>>", UPDATE_TRADING_SIGNAL_ERROR);
       break;
     case "DELETE_TRADING_SIGNAL":
-      console.log("response.body >>>>>>>>>>>", requestBody);
+      console.log("response.body >>>>>>>>>>>>>>", requestBody);
       const { error: DELETE_TRADING_SIGNAL_ERROR } = await supabase.from('trade_signals').delete().eq('id', data.row_id)
       console.log("SB_DB_ERROR >>>>>>>>>>>>>>>>", DELETE_TRADING_SIGNAL_ERROR);
       break;
