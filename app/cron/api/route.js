@@ -27,7 +27,7 @@ export async function GET() {
     TP1 : ${dataObject.takeprofit}
     `;
 
-    const response = await fetch("https://eorwbs4f4gnskwe.m.pipedream.net", {
+    const response = await fetch("https://eo71spt14he9xva.m.pipedream.net", {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
