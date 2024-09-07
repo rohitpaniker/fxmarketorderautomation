@@ -45,7 +45,7 @@ export async function GET() {
     allIDs.push(trade_signals[i].id)
   }
 
-  // expungeDBEntries(allIDs);
+  expungeDBEntries(allIDs);
 
   return Response.json({ message: 'Submitted trade signals to API!', totalTradeSignalsExecuted: trade_signals.length, totalEntriesDeleted: 0 })
 }
