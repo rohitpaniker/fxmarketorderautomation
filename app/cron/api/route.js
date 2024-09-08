@@ -40,12 +40,14 @@ export async function GET() {
   }
   let allIDs = [];
 
-  for (let i = 0; i < trade_signals.length; i++) {
-    callApiInLoop(trade_signals[i]);
-    allIDs.push(trade_signals[i].id)
+  if(trade_signals.length > 0) {
+    for (let i = 0; i < trade_signals.length; i++) {
+      callApiInLoop(trade_signals[i]);
+      allIDs.push(trade_signals[i].id)
+    }
+  
+    expungeDBEntries(allIDs);
   }
-
-  expungeDBEntries(allIDs);
 
   return Response.json({ message: 'Submitted trade signals to API!', totalTradeSignalsExecuted: trade_signals.length, totalEntriesDeleted: 0 })
 }
